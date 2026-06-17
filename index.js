@@ -79,6 +79,7 @@
             searchGitHubUser(searchedUser);
         });
 
+
         // Search for "saihrudai-crypto" by default on initial start
         window.onload = function() {
             searchGitHubUser("saihrudai-crypto");
