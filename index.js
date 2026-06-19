@@ -53,11 +53,11 @@ function showRepos() {
     const listContainer = document.getElementById("repos-list");
     listContainer.innerHTML = ""; // Clear old repos
 
-    // Display up to 5 repos safely
-    const maxRepos = Math.min(5, reposData.length);
+    // Display all repos of the given username
+   
     let combinedHTML = ""; 
 
-    for (let i = 0; i < maxRepos; i++) {
+    for (let i = 0; i < reposData.length; i++) {
         const repo = reposData[i];
         const description = repo.description || "No description provided.";
 
