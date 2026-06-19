@@ -15,6 +15,7 @@ async function searchGitHubUser(username) {
         // If response is not OK, show native alert box and stop safely
         if (userResponse.status !== 200) {
             alert("Username not valid");
+             searchGitHubUser("saihrudai-crypto");
             document.getElementById("input").value = '';
             return; 
         }
