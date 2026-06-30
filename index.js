@@ -3,6 +3,7 @@ let profileData = null;
 let reposData = [];
 
 // Main function to search a user
+// Main function to search a user with API Limit Tracking
 async function searchGitHubUser(username) {
     // Hide previous results
     document.getElementById("profile-area").classList.add("hidden");
@@ -12,18 +13,25 @@ async function searchGitHubUser(username) {
         // Fetch user profile data
         const userResponse = await fetch("https://api.github.com/users/" + username);
 
-// If response is not OK, show native alert box and stop safely
-
-        if (userResponse.status !== 200) {
-
-            alert("Username not valid");
-
-             searchGitHubUser("saihrudai-crypto");
-
+        // 🔍 Check API Limit counts from headers instantly
+        const remainingRequests = userResponse.headers.get("X-RateLimit-Remaining");
+        
+        if (remainingRequests !== null && parseInt(remainingRequests) === 0) {
+            alert("API limit exceeded. Please try again after some time.");
             document.getElementById("input").value = '';
+            return; // Stop execution immediately
+        }
 
+        // If response is not OK (like 404 user not found), show alert and stop safely
+        if (userResponse.status !== 200) {
+            alert("Username not valid");
+            document.getElementById("input").value = '';
+            
+            // Safety catch: Only fallback if we weren't already trying to load it
+            if (username !== "saihrudai-crypto") {
+                searchGitHubUser("saihrudai-crypto");
+            }
             return; 
-
         }
 
         // Save profile JSON
