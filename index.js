@@ -12,19 +12,19 @@ async function searchGitHubUser(username) {
         // Fetch user profile data
         const userResponse = await fetch("https://api.github.com/users/" + username);
 
-    // If response is not OK, stop safely and tell us why!
-if (userResponse.status !== 200) {
-    console.error("GitHub Error Status:", userResponse.status);
-    alert("Error " + userResponse.status + ": Could not load user " + username);
-    
-    document.getElementById("input").value = '';
-    
-    // SAFETY CATCH: Only run default if we aren't already stuck failing it!
-    if (username !== "saihrudai-crypto") {
-        searchGitHubUser("saihrudai-crypto");
-    }
-    return; 
-}
+// If response is not OK, show native alert box and stop safely
+
+        if (userResponse.status !== 200) {
+
+            alert("Username not valid");
+
+             searchGitHubUser("saihrudai-crypto");
+
+            document.getElementById("input").value = '';
+
+            return; 
+
+        }
 
         // Save profile JSON
         profileData = await userResponse.json();
